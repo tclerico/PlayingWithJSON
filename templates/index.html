@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript">
+  $(function() {
+    var submit_form = function(e) {
+      $.getJSON($SCRIPT_ROOT + '/_autocomplete', {
+        q: $('input[name="q"]').val(),
+      }, function(data) {
+        $('#result').text("Hey: "+data.result);
+      });
+        console.log($('input[name="q"]').val());
+      return false;
+    };
+
+    $('input[type=text]').bind('keyup', function(e) {
+        submit_form(e);
+    });
+
+  });
+</script>
+<h1>jQuery Example</h1>
+<p>
+  <input type="text" size="5" name="q">
+
+  <p id="result">?</p>
+
+{% endblock %}

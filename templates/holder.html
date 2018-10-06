@@ -1,0 +1,62 @@
+{#Functions to add/remove from the dropdowns#}
+$(function () {
+    $("#add").click(function () {
+    var course = $("#first").find(":selected").val();
+    var level = $("#level").find(":selected").val();
+    var option = '<option value='+course+level+'>'+course+' '+level+'</option>'
+    $("#second").append(option)
+    });
+});
+
+$(function (){
+    $("#remove").click(function () {
+        $("#second").find(":selected").remove();
+    });
+});
+
+
+
+{# populates drop down from route #}
+$.getJSON($SCRIPT_ROOT + '/_test',[],function (data) {
+    $.each(data.subjects,function (index,value) {
+        var sub = data.subjects[index][1];
+        var option = '<option value='+sub+'>'+data.subjects[index][0]+'</option>';
+        $("#dynamic").append(option);
+    });
+});
+
+
+
+
+{# sending info from form back to flask (attempt) #}
+
+$(function () {
+    $("#submit").click(function () {
+        var arr = [];
+        $("#choices option").each(function () {
+            arr.push($(this).val());
+            console.log($(this).val())
+        });
+        var choices = JSON.stringify(arr);
+        console.log(choices);
+
+        $.ajax({
+            type: "POST",
+            url: "{{ url_for('index') }}",
+            dataType: "json",
+            data: {
+                z: choices
+            },
+            success: function (data) {
+                console.log('Success');
+            },
+            /*error: function (data) {
+                console.log('Error');
+            }*/
+            error: function(xhr,err,data) {
+                console.log(data,xhr,err);
+            }
+        });
+
+    });
+});
