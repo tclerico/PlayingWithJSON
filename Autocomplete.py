@@ -13,7 +13,7 @@ migrate = Migrate(app, db)
 class Returned(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     level = db.Column(db.Integer)
-    prefix = db.Column(db.String(64))
+    prefix = db.Column(db.String(32))
 
 @app.route('/_autocomplete')
 def autocomplete():
